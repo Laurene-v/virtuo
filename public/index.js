@@ -260,6 +260,17 @@ rentals.forEach(item=> {
   console.log(item.commission);
 });
 
+//STEP 4 : Deductibles
+rentals.forEach(item=> {
+  console.log("step 4")
+  var d = Date.parse(item.returnDate) - Date.parse(item.pickupDate); //time difference in milliseconds
+  var days = Math.floor(d/86400000)+1; //converting in the number of days 
+  if (item.options.deductibleReduction==true) {
+    item.price=item.price+4*days;
+    item.commission.virtuo=item.commission.virtuo +4*days
+  } 
+});
+
 
 /*for (actor of actors){
   const nbDays = rental.return - rental.pickup;
