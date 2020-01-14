@@ -211,6 +211,7 @@ function rentalPrice2(rentalID, carID)
 
 //STEP 1 : Setting the price
 rentals.forEach(item=> {
+  console.log("step 1")
   var d = Date.parse(item.returnDate) - Date.parse(item.pickupDate); //time difference in milliseconds
   var days = Math.floor(d/86400000)+1; //converting in the number of days 
 
@@ -223,10 +224,11 @@ rentals.forEach(item=> {
 //STEP 2 : Decreasing prices 
 rentals.forEach(item=> {
   // three conditions 
+  console.log("step 2")
   var d = Date.parse(item.returnDate) - Date.parse(item.pickupDate); //time difference in milliseconds
   var days = Math.floor(d/86400000)+1; //converting in the number of days 
 
-  var reduction=0
+  var reduction=1
   if (days > 1) {
     reduction=0.9;
   } 
@@ -241,6 +243,21 @@ rentals.forEach(item=> {
   item.price=item.price * reduction
   console.log("price : ")
   console.log(item.price);
+});
+
+//STEP 3 : Setting the commissions
+rentals.forEach(item=> {
+  console.log("step 3")
+  var d = Date.parse(item.returnDate) - Date.parse(item.pickupDate); //time difference in milliseconds
+  var days = Math.floor(d/86400000)+1; //converting in the number of days 
+
+  item.commission.insurance=item.price/2
+  item.commission.treasury=days
+  item.commission.virtuo=item.price-item.commission.insurance - item.commission.treasury
+
+    // printing the log to test if it works : 
+  console.log("commissions : ")
+  console.log(item.commission);
 });
 
 
