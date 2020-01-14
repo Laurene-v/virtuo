@@ -209,21 +209,46 @@ function rentalPrice2(rentalID, carID)
 }
 
 
-
+//STEP 1 : Setting the price
 rentals.forEach(item=> {
   var d = Date.parse(item.returnDate) - Date.parse(item.pickupDate); //time difference in milliseconds
   var days = Math.floor(d/86400000)+1; //converting in the number of days 
 
   item.price=rentalPrice(days, item.distance, SelectWhereCarId(cars, item.carId).pricePerDay, SelectWhereCarId(cars, item.carId).pricePerKm)
+  // printing the log to test if it works : 
   console.log("price : ")
   console.log(item.price);
 });
+
+//STEP 2 : Decreasing prices 
+rentals.forEach(item=> {
+  // three conditions 
+  var d = Date.parse(item.returnDate) - Date.parse(item.pickupDate); //time difference in milliseconds
+  var days = Math.floor(d/86400000)+1; //converting in the number of days 
+
+  var reduction=0
+  if (days > 1) {
+    reduction=0.9;
+  } 
+
+  if (days > 4) {
+    reduction=0.7;
+  } 
+
+  if (days > 10) {
+    reduction=0.5;
+  } 
+  item.price=item.price * reduction
+  console.log("price : ")
+  console.log(item.price);
+});
+
 
 /*for (actor of actors){
   const nbDays = rental.return - rental.pickup;
 }*/
 
-// printing the log to test if it works : 
+
 //console.log(actors.price)
 //rentals.foreach.rentalId
 
