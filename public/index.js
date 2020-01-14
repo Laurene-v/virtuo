@@ -39,7 +39,12 @@ const rentals = [{
   'options': {
     'deductibleReduction': false
   },
-  'price': 0,
+  /*test: function(property) {
+    console.log(this[property])
+    return this.property;
+  },*/
+  'price': 0 //SelectWhere( this, 'id',0)+rentalPrice(this.returnDate-this.pickupDate+1, this.distance, SelectWhereCarId(cars, this.carId).pricePerDay+SelectWhere(cars, cars.id, this.carId).pricePerDay, rentalId.cars.pricePerKm)
+  ,
   'commission': {
     'insurance': 0,
     'treasury': 0,
@@ -73,6 +78,7 @@ const rentals = [{
   'carId': '4afcc3a2-bbf4-44e8-b739-0179a6cd8b7d',
   'pickupDate': '2019-12-01',
   'returnDate': '2019-12-15',
+  'distance': 1000,
   'options': {
     'deductibleReduction': true
   },
@@ -92,7 +98,7 @@ const actors = [{
     'who': 'driver',
     'type': 'debit',
     'amount': 0
-  }, {
+   }, {
     'who': 'partner',
     'type': 'credit',
     'amount': 0
@@ -109,6 +115,7 @@ const actors = [{
     'type': 'credit',
     'amount': 0
   }]
+
 }, {
   'rentalId': 'bc16add4-9b1d-416c-b6e8-2d5103cade80',
   'payment': [{
@@ -157,6 +164,74 @@ const actors = [{
   }]
 }];
 
+function rentalPrice(Number_Days, Distance, priceDay, priceKm)
+{
+  var rentalprice= priceKm * Distance + priceDay * Number_Days
+  return (rentalprice)
+}
+
+function test1(property){
+  console.log("test")
+  console.log(property)
+  
+  return 1
+}
+
+/*function SelectWhere(data, property, i) {
+  console.log(data)
+  console.log(data[i][property])
+  
+  if (data[i][property] !== null) return data[i];
+  return null;
+}*/
+
+function SelectWhereCarId(data, IDwewant) {
+  /*console.log(data[1])
+  console.log(data[1].id)
+  console.log(IDwewant)*/
+  for (var i = 0; i < data.length; i++) {
+      if (data[i].id == IDwewant) return data[i];
+  }
+  console.log("null returned")
+  return null;
+}
+
+
+
+
+function rentalPrice2(rentalID, carID)
+{
+  Distance=this.returnDate-this.pickupDate+1
+  id=this.rentalId
+  Number_Days=
+  rentalprice=priceKm*Distance +priceDay*Number_Days
+  return (rentalprice)
+}
+
+
+
+rentals.forEach(item=> {
+  var d = Date.parse(item.returnDate) - Date.parse(item.pickupDate); //time difference in milliseconds
+  var days = Math.floor(d/86400000)+1; //converting in the number of days 
+
+  item.price=rentalPrice(days, item.distance, SelectWhereCarId(cars, item.carId).pricePerDay, SelectWhereCarId(cars, item.carId).pricePerKm)
+  console.log("price : ")
+  console.log(item.price);
+});
+
+/*for (actor of actors){
+  const nbDays = rental.return - rental.pickup;
+}*/
+
+// printing the log to test if it works : 
+//console.log(actors.price)
+//rentals.foreach.rentalId
+
+
+/*
+console.log("-------------------- Final logs : --------------------")
 console.log(cars);
 console.log(rentals);
 console.log(actors);
+
+*/
